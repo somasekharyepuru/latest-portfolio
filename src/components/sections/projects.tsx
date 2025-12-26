@@ -1,87 +1,93 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { projects } from "@/lib/data"
-import { ExternalLink } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-20 px-4 bg-muted/30">
-      <div className="container mx-auto max-w-6xl">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            My <span className="gradient-text">Projects</span>
-          </h2>
-          <div className="w-20 h-1.5 bg-gradient-to-r from-primary to-purple-500 rounded-full mx-auto mb-6" />
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Real projects with measurable impact. Each solution was built to solve specific business challenges.
+    <section id="projects" className="py-24 px-6 bg-muted/30">
+      <div className="container mx-auto max-w-5xl">
+        {/* Header */}
+        <div className="mb-16">
+          <p className="text-sm font-medium text-muted-foreground mb-2 tracking-wide uppercase">
+            Work
           </p>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            Featured Projects
+          </h2>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
-            <Card key={project.title} className="overflow-hidden card-hover group">
+            <article
+              key={project.title}
+              className="group relative bg-card rounded-xl overflow-hidden border border-border/50 card-hover"
+            >
               {/* Image */}
-              <div className="relative h-48 md:h-56 overflow-hidden">
+              <div className="relative aspect-[16/10] overflow-hidden">
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                   priority={index < 2}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-                {/* Overlay Content */}
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary" className="text-xs">
-                      {project.category}
-                    </Badge>
-                    <span className="text-xs text-white/70">{project.year}</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                  <p className="text-sm text-white/80">{project.fullTitle}</p>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
               </div>
 
               {/* Content */}
-              <CardContent className="p-6">
-                <div className="flex flex-wrap gap-2 mb-4">
+              <div className="p-6 space-y-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs text-muted-foreground">{project.year}</span>
+                      <span className="text-muted-foreground/50">•</span>
+                      <span className="text-xs text-muted-foreground">{project.category}</span>
+                    </div>
+                    <h3 className="text-xl font-semibold">{project.title}</h3>
+                  </div>
+                  {project.liveUrl && (
+                    <Link
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0 p-2 -m-2 text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label={`Visit ${project.title}`}
+                    >
+                      <ArrowUpRight className="h-5 w-5" />
+                    </Link>
+                  )}
+                </div>
+
+                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                  {project.description}
+                </p>
+
+                <div className="flex flex-wrap gap-2">
                   {project.technologies.slice(0, 4).map((tech) => (
-                    <Badge key={tech} variant="outline" className="text-xs">
+                    <Badge
+                      key={tech}
+                      variant="secondary"
+                      className="text-xs font-normal"
+                    >
                       {tech}
                     </Badge>
                   ))}
                   {project.technologies.length > 4 && (
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="secondary" className="text-xs font-normal">
                       +{project.technologies.length - 4}
                     </Badge>
                   )}
                 </div>
 
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">{project.role}</span>
-                  {project.liveUrl && (
-                    <Button size="sm" asChild>
-                      <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-3 w-3 mr-1" />
-                        Live Demo
-                      </Link>
-                    </Button>
-                  )}
+                <div className="text-xs text-muted-foreground pt-2 border-t border-border/50">
+                  {project.role}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </article>
           ))}
         </div>
       </div>

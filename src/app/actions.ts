@@ -43,6 +43,7 @@ export async function submitContactForm(
 
   try {
     const webhookUrl = process.env.NEXT_PUBLIC_CONTACT_WEBHOOK_URL
+    console.log("webhookUrl", webhookUrl)
 
     if (!webhookUrl) {
       console.error("CONTACT_WEBHOOK_URL is not configured")

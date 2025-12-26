@@ -2,12 +2,11 @@
 
 import { useActionState } from "react"
 import { submitContactForm, type ContactFormState } from "@/app/actions"
-import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { Mail, Phone, MapPin, Send, Sparkles } from "lucide-react"
+import { Mail, MapPin, Send, Loader2 } from "lucide-react"
 import { siteConfig, availableFor } from "@/lib/data"
 
 const initialState: ContactFormState = {
@@ -19,176 +18,158 @@ export default function Contact() {
   const [state, formAction, isPending] = useActionState(submitContactForm, initialState)
 
   return (
-    <section id="contact" className="py-20 px-4">
-      <div className="container mx-auto max-w-6xl">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <h2 className="text-3xl md:text-5xl font-bold">Get In Touch</h2>
-            <Sparkles className="h-6 w-6 text-primary" />
-          </div>
-          <div className="w-20 h-1.5 bg-gradient-to-r from-primary to-purple-500 rounded-full mx-auto mb-6" />
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have a project in mind or want to discuss potential opportunities? Feel free to reach out!
+    <section id="contact" className="py-24 px-6">
+      <div className="container mx-auto max-w-5xl">
+        {/* Header */}
+        <div className="mb-16">
+          <p className="text-sm font-medium text-muted-foreground mb-2 tracking-wide uppercase">
+            Contact
           </p>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            Let&apos;s Work Together
+          </h2>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Contact Form */}
-          <Card className="lg:col-span-2">
-            <CardContent className="p-6 md:p-8">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="h-8 w-1 bg-gradient-to-b from-primary to-purple-500 rounded-full" />
-                <div>
-                  <h3 className="text-xl font-bold">Send me a message</h3>
-                  <p className="text-sm text-muted-foreground">I&apos;ll get back to you as soon as possible</p>
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
+          {/* Form */}
+          <div className="lg:col-span-3">
+            {state.message && (
+              <div
+                className={`p-4 rounded-lg mb-6 text-sm ${state.success
+                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                    : "bg-destructive/10 text-destructive border border-destructive/20"
+                  }`}
+              >
+                {state.message}
+              </div>
+            )}
+
+            <form action={formAction} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-sm font-medium">
+                    Name
+                  </Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    placeholder="Your name"
+                    className={`bg-background ${state.errors?.name ? "border-destructive" : ""}`}
+                  />
+                  {state.errors?.name && (
+                    <p className="text-xs text-destructive">{state.errors.name[0]}</p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-sm font-medium">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    className={`bg-background ${state.errors?.email ? "border-destructive" : ""}`}
+                  />
+                  {state.errors?.email && (
+                    <p className="text-xs text-destructive">{state.errors.email[0]}</p>
+                  )}
                 </div>
               </div>
 
-              {state.message && (
-                <div
-                  className={`p-4 rounded-lg mb-6 ${
-                    state.success
-                      ? "bg-green-500/10 text-green-500 border border-green-500/20"
-                      : "bg-destructive/10 text-destructive border border-destructive/20"
-                  }`}
-                >
-                  {state.message}
-                </div>
-              )}
+              <div className="space-y-2">
+                <Label htmlFor="subject" className="text-sm font-medium">
+                  Subject
+                </Label>
+                <Input
+                  id="subject"
+                  name="subject"
+                  placeholder="What's this about?"
+                  className={`bg-background ${state.errors?.subject ? "border-destructive" : ""}`}
+                />
+                {state.errors?.subject && (
+                  <p className="text-xs text-destructive">{state.errors.subject[0]}</p>
+                )}
+              </div>
 
-              <form action={formAction} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      placeholder="John Doe"
-                      className={state.errors?.name ? "border-destructive" : ""}
-                    />
-                    {state.errors?.name && (
-                      <p className="text-sm text-destructive">{state.errors.name[0]}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="john@example.com"
-                      className={state.errors?.email ? "border-destructive" : ""}
-                    />
-                    {state.errors?.email && (
-                      <p className="text-sm text-destructive">{state.errors.email[0]}</p>
-                    )}
-                  </div>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="message" className="text-sm font-medium">
+                  Message
+                </Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  placeholder="Tell me about your project..."
+                  rows={6}
+                  className={`bg-background resize-none ${state.errors?.message ? "border-destructive" : ""}`}
+                />
+                {state.errors?.message && (
+                  <p className="text-xs text-destructive">{state.errors.message[0]}</p>
+                )}
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    placeholder="Project Inquiry"
-                    className={state.errors?.subject ? "border-destructive" : ""}
-                  />
-                  {state.errors?.subject && (
-                    <p className="text-sm text-destructive">{state.errors.subject[0]}</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    placeholder="Tell me about your project..."
-                    rows={6}
-                    className={state.errors?.message ? "border-destructive" : ""}
-                  />
-                  {state.errors?.message && (
-                    <p className="text-sm text-destructive">{state.errors.message[0]}</p>
-                  )}
-                </div>
-
-                <Button type="submit" size="lg" className="w-full" disabled={isPending}>
-                  {isPending ? (
-                    <>
-                      <span className="animate-spin mr-2">⏳</span>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="h-4 w-4 mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={isPending}
+                className="w-full md:w-auto px-8"
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4 mr-2" />
+                    Send Message
+                  </>
+                )}
+              </Button>
+            </form>
+          </div>
 
           {/* Contact Info */}
-          <Card>
-            <CardContent className="p-6 md:p-8 h-full">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="h-8 w-1 bg-gradient-to-b from-primary to-purple-500 rounded-full" />
-                <h3 className="text-xl font-bold">Contact Information</h3>
-              </div>
-
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <Mail className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">Email</h4>
-                    <a
-                      href={`mailto:${siteConfig.email}`}
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {siteConfig.email}
-                    </a>
-                  </div>
+          <div className="lg:col-span-2 space-y-8">
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="p-2 rounded-lg bg-muted">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <Phone className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">Phone</h4>
-                    <p className="text-muted-foreground">{siteConfig.phone}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <MapPin className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">Location</h4>
-                    <p className="text-muted-foreground">{siteConfig.location}</p>
-                  </div>
+                <div>
+                  <h4 className="text-sm font-medium mb-1">Email</h4>
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {siteConfig.email}
+                  </a>
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-border">
-                <h4 className="font-medium mb-4">Available for:</h4>
-                <ul className="space-y-2">
-                  {availableFor.map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+              <div className="flex items-start gap-4">
+                <div className="p-2 rounded-lg bg-muted">
+                  <MapPin className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium mb-1">Location</h4>
+                  <p className="text-sm text-muted-foreground">{siteConfig.location}</p>
+                </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+
+            <div className="pt-6 border-t border-border">
+              <h4 className="text-sm font-medium mb-4">Available for</h4>
+              <ul className="space-y-2">
+                {availableFor.map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
