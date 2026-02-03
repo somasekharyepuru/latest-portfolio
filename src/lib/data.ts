@@ -1,8 +1,9 @@
 export const siteConfig = {
   name: "Somasekhar Yepuru",
+  siteUrl: "https://somasekhar.dev",
   role: "React Specialist | Full-Stack Developer",
   tagline: "Building Scalable Web Applications That Drive Results",
-  description: "I help startups and enterprises build fast, conversion-optimized web applications using React, Next.js, and modern cloud technologies. 50+ projects delivered with measurable results.",
+  description: "React & Next.js developer building fast, scalable web apps for startups and enterprises. 7+ years experience, 50+ projects delivered.",
   email: "somasekharyepuru@gmail.com",
   phone: "+91 9640096346",
   location: "Hyderabad, India",
@@ -129,6 +130,28 @@ export const experiences = [
 ]
 
 export const projects = [
+  {
+    title: "Daymark",
+    fullTitle: "A Better Way to Plan Your Day",
+    description: "A calm, distraction-free productivity app that helps you plan your day, focus on top priorities, capture notes, track habits, and reflect daily.",
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "React"],
+    liveUrl: "https://daymark.somasekhar.dev/",
+    role: "Solo Developer",
+    year: "2024",
+    category: "Productivity",
+  },
+  {
+    title: "HangoutU",
+    fullTitle: "Travel Companion & Events Platform",
+    description: "Connect with travelers near you. Find companions for trips, events, movies, trekking, and hangouts. Create or join organized travel plans.",
+    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80",
+    technologies: ["React", "TypeScript", "Vite", "PWA"],
+    liveUrl: "https://hangoutu.com/",
+    role: "Solo Developer",
+    year: "2024",
+    category: "Social",
+  },
   {
     title: "ASI PMS",
     fullTitle: "Next-Gen Hotel Property Management System",
