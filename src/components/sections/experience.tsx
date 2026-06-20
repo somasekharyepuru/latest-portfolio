@@ -7,10 +7,7 @@ export default function Experience() {
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="mb-16">
-          <p className="text-sm font-medium text-muted-foreground mb-2 tracking-wide uppercase">
-            Career
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-balance">
             Professional Experience
           </h2>
         </div>
@@ -22,7 +19,7 @@ export default function Experience() {
 
           {/* Experience Items */}
           <div className="space-y-12">
-            {experiences.map((exp, index) => (
+            {experiences.map((exp) => (
               <div key={exp.period} className="relative pl-8 md:pl-24">
                 {/* Timeline dot */}
                 <div className="absolute left-0 md:left-12 top-1.5 w-2 h-2 -translate-x-1/2 rounded-full bg-foreground" />
@@ -43,14 +40,14 @@ export default function Experience() {
                     </div>
                     <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mt-1">
                       <span>{exp.location}</span>
-                      <span className="text-border">•</span>
+                      <span aria-hidden="true" className="text-muted-foreground/50">•</span>
                       <span>{exp.type}</span>
-                      <span className="text-border">•</span>
+                      <span aria-hidden="true" className="text-muted-foreground/50">•</span>
                       <span className="md:hidden">{exp.period}</span>
                     </div>
                   </div>
 
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-foreground/75 leading-relaxed text-pretty">
                     {exp.description}
                   </p>
 

@@ -66,7 +66,7 @@ export default function Footer() {
                     href={social.href}
                     target={social.href.startsWith("mailto") ? undefined : "_blank"}
                     rel={social.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    className="inline-flex size-11 items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
                     aria-label={social.label}
                   >
                     <Icon className="h-4 w-4" />

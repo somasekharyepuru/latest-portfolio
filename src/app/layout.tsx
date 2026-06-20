@@ -66,7 +66,13 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main>{children}</main>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:border focus:border-border"
+          >
+            Skip to content
+          </a>
+          <main id="main">{children}</main>
           <Footer />
           <JsonLd />
         </ThemeProvider>

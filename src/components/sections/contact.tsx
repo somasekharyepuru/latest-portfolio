@@ -22,10 +22,7 @@ export default function Contact() {
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="mb-16">
-          <p className="text-sm font-medium text-muted-foreground mb-2 tracking-wide uppercase">
-            Contact
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-balance">
             Let&apos;s Work Together
           </h2>
         </div>
@@ -35,8 +32,10 @@ export default function Contact() {
           <div className="lg:col-span-3">
             {state.message && (
               <div
+                role="status"
+                aria-live="polite"
                 className={`p-4 rounded-lg mb-6 text-sm ${state.success
-                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                    ? "bg-success/10 text-foreground border border-success/30"
                     : "bg-destructive/10 text-destructive border border-destructive/20"
                   }`}
               >
@@ -44,7 +43,7 @@ export default function Contact() {
               </div>
             )}
 
-            <form action={formAction} className="space-y-6">
+            <form action={formAction} noValidate className="space-y-6">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-sm font-medium">
@@ -53,11 +52,18 @@ export default function Contact() {
                   <Input
                     id="name"
                     name="name"
+                    required
+                    autoComplete="name"
+                    maxLength={100}
                     placeholder="Your name"
+                    aria-invalid={!!state.errors?.name}
+                    aria-describedby={state.errors?.name ? "name-error" : undefined}
                     className={`bg-background ${state.errors?.name ? "border-destructive" : ""}`}
                   />
                   {state.errors?.name && (
-                    <p className="text-xs text-destructive">{state.errors.name[0]}</p>
+                    <p id="name-error" role="alert" className="text-xs text-destructive">
+                      {state.errors.name[0]}
+                    </p>
                   )}
                 </div>
                 <div className="space-y-2">
@@ -68,11 +74,18 @@ export default function Contact() {
                     id="email"
                     name="email"
                     type="email"
+                    required
+                    autoComplete="email"
+                    maxLength={254}
                     placeholder="you@example.com"
+                    aria-invalid={!!state.errors?.email}
+                    aria-describedby={state.errors?.email ? "email-error" : undefined}
                     className={`bg-background ${state.errors?.email ? "border-destructive" : ""}`}
                   />
                   {state.errors?.email && (
-                    <p className="text-xs text-destructive">{state.errors.email[0]}</p>
+                    <p id="email-error" role="alert" className="text-xs text-destructive">
+                      {state.errors.email[0]}
+                    </p>
                   )}
                 </div>
               </div>
@@ -84,11 +97,17 @@ export default function Contact() {
                 <Input
                   id="subject"
                   name="subject"
+                  required
+                  maxLength={200}
                   placeholder="What's this about?"
+                  aria-invalid={!!state.errors?.subject}
+                  aria-describedby={state.errors?.subject ? "subject-error" : undefined}
                   className={`bg-background ${state.errors?.subject ? "border-destructive" : ""}`}
                 />
                 {state.errors?.subject && (
-                  <p className="text-xs text-destructive">{state.errors.subject[0]}</p>
+                  <p id="subject-error" role="alert" className="text-xs text-destructive">
+                    {state.errors.subject[0]}
+                  </p>
                 )}
               </div>
 
@@ -99,13 +118,25 @@ export default function Contact() {
                 <Textarea
                   id="message"
                   name="message"
+                  required
+                  maxLength={5000}
                   placeholder="Tell me about your project..."
                   rows={6}
+                  aria-invalid={!!state.errors?.message}
+                  aria-describedby={state.errors?.message ? "message-error" : undefined}
                   className={`bg-background resize-none ${state.errors?.message ? "border-destructive" : ""}`}
                 />
                 {state.errors?.message && (
-                  <p className="text-xs text-destructive">{state.errors.message[0]}</p>
+                  <p id="message-error" role="alert" className="text-xs text-destructive">
+                    {state.errors.message[0]}
+                  </p>
                 )}
+              </div>
+
+              {/* Honeypot  -  hidden from humans, catches bots. aria-hidden + visually off-screen */}
+              <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
+                <label htmlFor="company">Company</label>
+                <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
               </div>
 
               <Button

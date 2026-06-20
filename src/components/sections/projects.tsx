@@ -10,10 +10,7 @@ export default function Projects() {
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="mb-16">
-          <p className="text-sm font-medium text-muted-foreground mb-2 tracking-wide uppercase">
-            Work
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-balance">
             Featured Projects
           </h2>
         </div>
@@ -32,7 +29,7 @@ export default function Projects() {
                   alt={project.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover transition-transform duration-500 [transition-timing-function:var(--ease-out)] [@media(hover:hover)]:group-hover:scale-105"
                   priority={index < 2}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
@@ -41,20 +38,20 @@ export default function Projects() {
               {/* Content */}
               <div className="p-6 space-y-4">
                 <div className="flex items-start justify-between gap-4">
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs text-muted-foreground">{project.year}</span>
                       <span className="text-muted-foreground/50">•</span>
                       <span className="text-xs text-muted-foreground">{project.category}</span>
                     </div>
-                    <h3 className="text-xl font-semibold">{project.title}</h3>
+                    <h3 className="text-xl font-semibold break-words">{project.title}</h3>
                   </div>
                   {project.liveUrl && (
                     <Link
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="shrink-0 p-2 -m-2 text-muted-foreground hover:text-foreground transition-colors"
+                      className="shrink-0 inline-flex size-11 items-center justify-center -m-2 text-muted-foreground hover:text-foreground transition-[transform,color] duration-200 [transition-timing-function:var(--ease-out)] active:scale-[0.9]"
                       aria-label={`Visit ${project.title}`}
                     >
                       <ArrowUpRight className="h-5 w-5" />
@@ -62,7 +59,7 @@ export default function Projects() {
                   )}
                 </div>
 
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                <p className="text-sm text-foreground/75 leading-relaxed line-clamp-2">
                   {project.description}
                 </p>
 

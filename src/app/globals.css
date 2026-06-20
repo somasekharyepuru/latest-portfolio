@@ -37,6 +37,8 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -64,6 +66,8 @@
   --border: #e5e5e5;
   --input: #e5e5e5;
   --ring: #0a0a0a;
+  --success: #16a34a;
+  --success-foreground: #ffffff;
   --chart-1: #0ea5e9;
   --chart-2: #22c55e;
   --chart-3: #f59e0b;
@@ -99,6 +103,8 @@
   --border: rgba(255, 255, 255, 0.08);
   --input: rgba(255, 255, 255, 0.08);
   --ring: #fafafa;
+  --success: #4ade80;
+  --success-foreground: #052e16;
   --chart-1: #38bdf8;
   --chart-2: #4ade80;
   --chart-3: #fbbf24;
@@ -123,6 +129,11 @@
   }
 }
 
+/* Shape system (one rule, applied everywhere):
+   interactive = pill (rounded-full), surfaces = --radius scale,
+   inputs/badges = sm. Buttons/CTAs/status use full pill;
+   cards/images use lg; inputs/badges use sm/md. */
+
 /* Professional animations - subtle and refined */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(12px); }
@@ -140,65 +151,78 @@
 }
 
 .animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
+  animation: fade-in 0.5s var(--ease-out) both;
 }
 
+/* Reveals enhance an already-visible default: no `opacity:0` resting state,
+   so content is never stuck invisible if the animation is throttled (paused
+   tabs, headless renderers) or unsupported. Keyframe animates 0→1; `both`
+   holds the start state only while the animation is active. */
 .animate-fade-in-delay-1 {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out 0.1s forwards;
+  animation: fade-in 0.5s var(--ease-out) 0.1s both;
 }
 
 .animate-fade-in-delay-2 {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out 0.2s forwards;
+  animation: fade-in 0.5s var(--ease-out) 0.2s both;
 }
 
 .animate-fade-in-delay-3 {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out 0.3s forwards;
+  animation: fade-in 0.5s var(--ease-out) 0.3s both;
 }
 
 .animate-fade-in-delay-4 {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out 0.4s forwards;
+  animation: fade-in 0.5s var(--ease-out) 0.4s both;
 }
 
 .animate-slide-in {
-  animation: slide-in 0.4s ease-out forwards;
+  animation: slide-in 0.4s var(--ease-out) forwards;
+}
+
+/* Strong custom easing curves  -  built-ins lack punch */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 /* Professional card hover effect */
 .card-hover {
-  transition: all 0.2s ease-out;
+  transition: transform 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out),
+    border-color 200ms ease-out;
 }
 
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.2);
-}
+/* Touch devices trigger hover on tap  -  gate pointer-only interactions */
+@media (hover: hover) and (pointer: fine) {
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.2);
+  }
 
-.dark .card-hover:hover {
-  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.5);
-}
+  .dark .card-hover:hover {
+    box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.5);
+  }
 
-/* Subtle link underline animation */
-.link-underline {
-  position: relative;
-}
+  /* Subtle link underline animation  -  scaleX keeps it off main thread */
+  .link-underline {
+    position: relative;
+  }
 
-.link-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: currentColor;
-  transition: width 0.2s ease-out;
-}
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms var(--ease-out);
+  }
 
-.link-underline:hover::after {
-  width: 100%;
+  .link-underline:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 /* Section divider */
@@ -210,6 +234,40 @@
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;
+}
+
+/* Mobile menu reveal/collapse  -  persisted node, animates open via grid-rows */
+.mobile-menu {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 250ms var(--ease-out),
+    opacity 200ms var(--ease-out);
+}
+
+.mobile-menu[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.mobile-menu > div {
+  overflow: hidden;
+}
+
+/* Reduced motion  -  fewer/gentler animations, keep opacity/color aids */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Focus styles - refined */

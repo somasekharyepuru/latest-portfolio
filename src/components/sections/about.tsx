@@ -24,15 +24,12 @@ export default function About() {
           {/* Content */}
           <div className="md:col-span-3 space-y-6">
             <div>
-              <p className="text-sm font-medium text-muted-foreground mb-2 tracking-wide uppercase">
-                About Me
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-balance">
                 Building products that matter
               </h2>
             </div>
 
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
+            <div className="space-y-4 text-foreground/75 leading-relaxed text-pretty">
               <p>
                 I&apos;m a React/Next.js specialist with {siteConfig.stats.yearsExperience}+ years of experience
                 turning ambiguous ideas into performant, maintainable products. Based in {siteConfig.location},
@@ -43,22 +40,6 @@ export default function About() {
                 React Server Components, server actions, and strategic caching. I believe in
                 design systems, accessibility by default, and measurable performance improvements.
               </p>
-            </div>
-
-            {/* Stats - Minimal */}
-            <div className="flex flex-wrap gap-8 pt-4">
-              <div>
-                <div className="text-3xl font-bold">{siteConfig.stats.yearsExperience}+</div>
-                <div className="text-sm text-muted-foreground">Years Experience</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold">{siteConfig.stats.projects}+</div>
-                <div className="text-sm text-muted-foreground">Projects Delivered</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold">{siteConfig.stats.clients}+</div>
-                <div className="text-sm text-muted-foreground">Happy Clients</div>
-              </div>
             </div>
           </div>
         </div>
