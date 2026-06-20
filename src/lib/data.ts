@@ -91,7 +91,7 @@ export const experiences = [
     location: "Hyderabad, India",
     type: "Remote",
     description: "Leading full-stack development initiatives, building scalable web applications using React, Next.js, Node.js, and modern cloud technologies. Mentoring junior developers and implementing best practices.",
-    skills: ["React", "Next.js", "TypeScript", "Node.js", "Postgres", "MongoDB", "AWS"],
+    skills: ["React", "Next.js", "TypeScript", "Node.js", "Postgres", "MongoDB", "AWS", "Cursor", "Claude Code", "MCP", "AI Agents", "RAG"],
   },
   {
     period: "2022 - 2024",
